@@ -1,12 +1,12 @@
 # Project Overview
 
-This Blazor application mimics Salesforce's UI/UX, creating a dynamic Single Page Application (SPA) with tabs and navigation similar to Salesforce’s layout. The goal is to manage dynamic fragments that represent different pages within the app. Here’s how the system is structured:
+This Blazor application mimics Salesforce's UI/UX, creating a dynamic Single Page Application (SPA) with tabs and navigation similar to Salesforceâ€™s layout. The goal is to manage dynamic fragments that represent different pages within the app. Hereâ€™s how the system is structured:
 
 ## **MainLayout.razor**
 
 `MainLayout.razor` is the central component of the SPA and is responsible for:
 
-- Rendering the app’s **navigation sidebar**, which allows users to open different "fragments" (or "tabs").
+- Rendering the appâ€™s **navigation sidebar**, which allows users to open different "fragments" (or "tabs").
 - Displaying the **list of open tabs** within the main content area.
 - Handling the **active tab** logic, updating the main content area based on user interaction:
   - When a user clicks on a tab in the sidebar, the corresponding tab content is displayed.
@@ -28,4 +28,4 @@ This Blazor application mimics Salesforce's UI/UX, creating a dynamic Single Pag
 - **Managing tab data**: Fetches the JSON data associated with each tab fragment.
 - **Creating tab data**: Allows creation and storage of JSON data for each fragment.
 
-This service ensures that each tab’s state and associated data are properly saved and retrieved as users interact with the app.
+This service ensures that each tabâ€™s state and associated data are properly saved and retrieved as users interact with the app.

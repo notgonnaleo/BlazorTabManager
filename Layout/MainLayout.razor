@@ -1,5 +1,7 @@
 ﻿@using BlazorTabManagerApp.Pages
 @using BlazorTabManagerApp.Util
+@inject TabDataService _tabDataService;
+
 @inherits LayoutComponentBase
 
 <div class="page">
@@ -28,21 +30,19 @@
 
         <article class="content px-4">
             <!-- Render body content here based on selected tab -->
-            <TabSelector SelectedTab="@selectedTab" Data="@tabData" />
+            <Tab SelectedTab="@selectedTab" Data="@tabData" />
         </article>
 
     </main>
 </div>
 
-@code {
-    private List<Type> openedTabs = new List<Type>(); // Track opened tabs
-    private Type selectedTab = typeof(Home); // Default to Home tab
+@code 
+{
+    private List<Type> openedTabs = new List<Type>();
 
+    private Type selectedTab = typeof(Home); // Default to Home tab
     private object tabData; // Store data for the selected tab
 
-    [Inject] private TabDataService TabDataService { get; set; }
-
-    // This method is called when a tab is selected in the NavMenu
     private void OpenTab(Type tab)
     {
         // Add tab to openedTabs if it's not already there
@@ -50,8 +50,6 @@
         {
             openedTabs.Add(tab);
         }
-
-        // Set the selected tab
         SetSelectedTab(tab);
     }
 
@@ -67,6 +65,6 @@
     private void SetSelectedTab(Type tab)
     {
         selectedTab = tab;
-        tabData = TabDataService.GetOrCreateTabData<object>(tab); // Load or create data for the selected tab
+        tabData = _tabDataService.GetOrCreateTabData<object>(tab); // Load or create data for the selected tab
     }
 }

@@ -1,5 +1,6 @@
 ﻿@page "/counter"
-
+@using BlazorTabManagerApp.Util
+@inject TabDataService _tabDataService
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
@@ -8,11 +9,26 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
-@code {
+@code 
+{
     private int currentCount = 0;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // TODO: Figure out how to deal with MULTIPLE data set & types in the same page fragment.
+        var state = _tabDataService.GetOrCreateTabData<object>(typeof(Counter));
+        if (state != null && state is int savedCount)
+        {
+            currentCount = savedCount;
+        }
+    }
 
     private void IncrementCount()
     {
         currentCount++;
+
+        // TODO: See if it's worth to always do a call to the service or just do it when the page is about to be destroyed.
+        _tabDataService.TabData[typeof(Counter)] = currentCount;
     }
 }

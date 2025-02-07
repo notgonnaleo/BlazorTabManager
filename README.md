@@ -1,24 +1,31 @@
-Copying salesforce UI/UX but for a blazor app, doing in the worst way possible maybe?
-I'm not sure if this is a good idea, but I'm going to try it anyway.
+# Project Overview
 
-* MainLayout.razor
-- Is the main component of the SPA (Single Page Application) where we are going to render different page components fragments.
-- It has the responsabilities of:
-1. Render the app navigation sidebar which will let the user open a fragment aka "new tab"
-2. Show the list of open tabs (fragments) in the main content area
-3. Set the active tab (fragment) to be rendered in the main content area, when the user clicks on a tab in the sidebar or at any
-already opened tab at the upper part of the main content area. (Opened tabs list)
+This Blazor application mimics Salesforce's UI/UX, creating a dynamic Single Page Application (SPA) with tabs and navigation similar to Salesforce’s layout. The goal is to manage dynamic fragments that represent different pages within the app. Here’s how the system is structured:
 
-* Tab.razor
-- Basically is coupled with MainLayout, being the fragment that will be used as the mirror for rendering other components.
-- It has the responsabilities of:
-1. Receive a razor component to be rendered as a tab content (Counter.razor, Home.razor, Weather.razor)
-2. Receive the razor component data to be rendered together with the actual component fragment being a key and value pair, 
-"Type" (for the component fragment) and "object" (for the JSON data which is the "page" data at the moment)
+## **MainLayout.razor**
 
-* TabDataService.cs
-- It's the tab state and data management core, we are going to save and read the JSON data that were created and used inside
-the respective component being mirrored at the Tab.razor component.
-- It has the responsabilities of:
-1. Get pages fragment JSON/object data
-2. Create pages fragment JSON/object data
+`MainLayout.razor` is the central component of the SPA and is responsible for:
+
+- Rendering the app’s **navigation sidebar**, which allows users to open different "fragments" (or "tabs").
+- Displaying the **list of open tabs** within the main content area.
+- Handling the **active tab** logic, updating the main content area based on user interaction:
+  - When a user clicks on a tab in the sidebar, the corresponding tab content is displayed.
+  - Users can also interact with the opened tabs list located at the top of the main content area to switch between active tabs.
+
+## **Tab.razor**
+
+`Tab.razor` works in conjunction with `MainLayout.razor` and represents an individual tab that displays dynamic content. It has the following responsibilities:
+
+- Accepting a Razor component (e.g., `Counter.razor`, `Home.razor`, `Weather.razor`) to be rendered within the tab.
+- Managing **tab-specific data** by accepting a key-value pair where:
+  - **Key**: The type of the Razor component fragment.
+  - **Value**: The corresponding JSON data (page data) to be displayed within the tab.
+
+## **TabDataService.cs**
+
+`TabDataService.cs` is the core service that handles the state and data for the tabs. It is responsible for:
+
+- **Managing tab data**: Fetches the JSON data associated with each tab fragment.
+- **Creating tab data**: Allows creation and storage of JSON data for each fragment.
+
+This service ensures that each tab’s state and associated data are properly saved and retrieved as users interact with the app.

@@ -1,0 +1,72 @@
+﻿@using BlazorTabManagerApp.Pages
+@using BlazorTabManagerApp.Util
+@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu OnTabSelected="OpenTab" />
+    </div>
+
+    <main>
+
+        <div class="top-row d-flex justify-content-start">
+            <div class="opened-tabs">
+                <!-- Show the opened tab list -->
+                @foreach (var tab in openedTabs)
+                {
+                    <div class="btn-group m-1" role="group" aria-label="Tabs">
+                        <button class="btn btn-primary tab-btn rounded-start" @onclick="() => SetSelectedTab(tab)">
+                            @tab.Name
+                        </button>
+                        <button class="btn btn-primary close-btn rounded-end" @onclick="() => CloseTab(tab)">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <article class="content px-4">
+            <!-- Render body content here based on selected tab -->
+            <TabSelector SelectedTab="@selectedTab" Data="@tabData" />
+        </article>
+
+    </main>
+</div>
+
+@code {
+    private List<Type> openedTabs = new List<Type>(); // Track opened tabs
+    private Type selectedTab = typeof(Home); // Default to Home tab
+
+    private object tabData; // Store data for the selected tab
+
+    [Inject] private TabDataService TabDataService { get; set; }
+
+    // This method is called when a tab is selected in the NavMenu
+    private void OpenTab(Type tab)
+    {
+        // Add tab to openedTabs if it's not already there
+        if (!openedTabs.Contains(tab))
+        {
+            openedTabs.Add(tab);
+        }
+
+        // Set the selected tab
+        SetSelectedTab(tab);
+    }
+
+    private void CloseTab(Type tab)
+    {
+        openedTabs.Remove(tab);
+        if (selectedTab == tab) {
+            selectedTab = typeof(Home);
+        }
+    }
+
+    // This method updates the selectedTab when a tab is clicked
+    private void SetSelectedTab(Type tab)
+    {
+        selectedTab = tab;
+        tabData = TabDataService.GetOrCreateTabData<object>(tab); // Load or create data for the selected tab
+    }
+}
